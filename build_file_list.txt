@@ -1,0 +1,5 @@
+application.py
+flag_export.pkl
+requirements.txt
+templates/public/
+templates/public/upload_image.html

@@ -1,0 +1,6 @@
+-f https://download.pytorch.org/whl/torch_stable.html torch==1.6.0
+-f https://download.pytorch.org/whl/torch_stable.html torchvision==0.7.0
+fastai
+flask
+pillow
+ipython
