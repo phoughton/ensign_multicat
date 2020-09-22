@@ -3,3 +3,5 @@ flag_export.pkl
 requirements.txt
 templates/public/
 templates/public/upload_image.html
+ensign_multicat/utils.py
+ensign_multicat/__init__.py
