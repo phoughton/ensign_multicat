@@ -1,4 +1,4 @@
-from fastai.vision.core import PILImage, parent_label
+from fastai.vision.core import parent_label
 
 
 def parent_label_list(label):
