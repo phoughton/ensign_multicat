@@ -1,3 +1,3 @@
-import ensign_utils.utils
+import ensign_multicat.ensign_utils.utils
 
 __all__ = ["utils"]
