@@ -1,5 +1,5 @@
-import fastai.vision.core
+import fastai.vision.core as fvc
 
 
 def parent_label_list(label):
-    return [fastai.vision.core.parent_label(label)]
+    return [fvc.parent_label(label)]
