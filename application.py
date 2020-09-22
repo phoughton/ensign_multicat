@@ -4,7 +4,7 @@ from fastai.learner import load_learner
 import pathlib
 from fastai.vision.core import PILImage
 import platform
-
+import ensign_multicat as utils
 
 application = Flask(__name__)
 application.config['MAX_CONTENT_LENGTH'] = 12 * 1024 * 1024
@@ -16,11 +16,16 @@ if platform.system() == 'Windows':
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-learn_inf = load_learner('flag_export.pkl', cpu=True)
-
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def clean_cats(cat_name):
+    return cat_name.replace('_', ' ').title()
+
+
+learn_inf = load_learner('flag_export.pkl', cpu=True)
 
 
 @application.route("/upload-image/", methods=["GET", "POST"])
@@ -29,16 +34,14 @@ def upload_image():
         if request.files:
             image = request.files["image"]
             if allowed_file(image.filename):
-                pred, pred_idx, probs = learn_inf.predict(PILImage.create(image))
-                pred = pred.replace('_', ' ').title()
-                if probs[pred_idx] > MIN_STANDARD:
+                preds, bools, probs = learn_inf.predict(PILImage.create(image))
+                if len(preds) > 0:
+                    preds = preds.map(clean_cats)
+
                     return render_template("public/upload_image.html",
-                                           messages=f"I think it is a {pred} flag; Probability: {probs[pred_idx]:.04f}")
+                                           messages=f"The image includes these: {list(preds)} flag")
                 else:
-                    return render_template("public/upload_image.html",
-                                           messages=f"I can't recognise this one." +
-                                                    f" But if had to guess, " +
-                                                    f"I would say it was the flag of {pred}; Probability: {probs[pred_idx]:.04f}")
+                    return render_template("public/upload_image.html", messages=f"I can't recognise this one.")
             else:
                 return render_template("public/upload_image.html", messages=f"Sorry, invalid image type: Must be a: {ALLOWED_EXTENSIONS}")
 
