@@ -1,6 +1,6 @@
 # ensign_multicat
 
-A simple example Flag classifier using colab to create the model and flask to enable a web app.
+A simple example flag classifier using google colab to create the model and flask to enable a web app.
 
 ### Quick install using pip & requirements.txt (recommended)
 Create a virtual environment and type this pip command at the command line. (It's a big install and may take a few minutes.)
